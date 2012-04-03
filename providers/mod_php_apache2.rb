@@ -28,7 +28,7 @@ action :before_compile do
   include_recipe "apache2::mod_php5"
 
   unless new_resource.server_aliases
-    server_aliases = [ "#{new_resource.name}.#{node['domain']}", node['fqdn'] ]
+    server_aliases = [ "#{new_resource.application.name}.#{node['domain']}", node['fqdn'] ]
     if node.has_key?("cloud")
       server_aliases << node['cloud']['public_hostname']
     end
