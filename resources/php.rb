@@ -21,7 +21,7 @@ include Chef::Resource::ApplicationBase
 
 attribute :database_master_role, :kind_of => [String, NilClass], :default => nil
 attribute :local_settings_file, :kind_of => [String, NilClass], :default => 'LocalSettings.php'
-# Actually defaults to "settings.py.erb", but nil means it wasn't set by the user
+# Actually defaults to "#{local_settings_file_name}.erb", but nil means it wasn't set by the user
 attribute :settings_template, :kind_of => [String, NilClass], :default => nil
 attribute :pears, :kind_of => [Array, Hash], :default => []
 
