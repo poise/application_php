@@ -33,8 +33,8 @@ end
 
 action :before_deploy do
 
-  new_resource.pears.each do |pear,ver|
-    php_pear pear do
+  new_resource.packages.each do |name,ver|
+    php_pear name do
       action :install
       version ver if ver && ver.length > 0
     end
