@@ -33,13 +33,36 @@ end
 
 action :before_deploy do
 
+  install_packages
+
+  create_settings_file
+
+end
+
+action :before_migrate do
+end
+
+action :before_symlink do
+end
+
+action :before_restart do
+end
+
+action :after_restart do
+end
+
+protected
+
+def install_packages
   new_resource.packages.each do |name,ver|
     php_pear name do
       action :install
       version ver if ver && ver.length > 0
     end
   end
+end
 
+def create_settings_file
   if new_resource.database_master_role
     dbm = new_resource.find_matching_role(new_resource.database_master_role)
 
@@ -60,17 +83,4 @@ action :before_deploy do
       Chef::Log.warn("No node with role #{new_resource.database_master_role}")
     end
   end
-
-end
-
-action :before_migrate do
-end
-
-action :before_symlink do
-end
-
-action :before_restart do
-end
-
-action :after_restart do
 end
