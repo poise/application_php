@@ -63,24 +63,17 @@ def install_packages
 end
 
 def create_settings_file
-  if new_resource.database_master_role
-    dbm = new_resource.find_matching_role(new_resource.database_master_role)
+  host = new_resource.find_database_server(new_resource.database_master_role)
 
-    # Assuming we have one...
-    if dbm
-      template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
-        source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
-        owner new_resource.owner
-        group new_resource.group
-        mode "644"
-        variables(
-          :path => "#{new_resource.path}/current",
-          :host => (dbm.attribute?('cloud') ? dbm['cloud']['local_ipv4'] : dbm['ipaddress']),
-          :database => new_resource.database
-        )
-      end
-    else
-      Chef::Log.warn("No node with role #{new_resource.database_master_role}")
-    end
+  template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
+    source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
+    owner new_resource.owner
+    group new_resource.group
+    mode "644"
+    variables(
+      :path => "#{new_resource.path}/current",
+      :host => host,
+      :database => new_resource.database
+    )
   end
 end
