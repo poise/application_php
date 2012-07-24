@@ -46,9 +46,13 @@ end
 action :before_deploy do
 
   new_resource = @new_resource
+  apache_docroot = "#{new_resource.application.path}/current"
+  relative_docroot = new_resource.docroot
+  relative_docroot ||= new_resource.application.docroot
+  apache_docroot << "/#{relative_docroot}" if relative_docroot
 
   web_app new_resource.application.name do
-    docroot "#{new_resource.application.path}/current"
+    docroot apache_docroot
     template new_resource.webapp_template || 'php.conf.erb'
     cookbook new_resource.webapp_template ? new_resource.cookbook_name : "application_php"
     server_name "#{new_resource.application.name}.#{node['domain']}"

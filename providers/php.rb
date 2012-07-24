@@ -64,6 +64,8 @@ end
 
 def create_settings_file
   host = new_resource.find_database_server(new_resource.database_master_role)
+  relative_docroot = new_resource.docroot
+  relative_docroot ||= new_resource.application.docroot
 
   template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
     source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
@@ -72,6 +74,7 @@ def create_settings_file
     mode "644"
     variables(
       :path => "#{new_resource.path}/current",
+      :docroot => relative_docroot,
       :host => host,
       :database => new_resource.database
     )

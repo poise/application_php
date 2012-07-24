@@ -24,6 +24,8 @@ attribute :local_settings_file, :kind_of => [String, NilClass], :default => 'Loc
 # Actually defaults to "#{local_settings_file_name}.erb", but nil means it wasn't set by the user
 attribute :settings_template, :kind_of => [String, NilClass], :default => nil
 attribute :packages, :kind_of => [Array, Hash], :default => []
+# docroot: set when the http docroot is a subdir of the deployed app
+attribute :docroot, :kind_of => [String, NilClass], :default => nil
 
 def local_settings_file_name
   @local_settings_file_name ||= local_settings_file.split(/[\\\/]/).last
