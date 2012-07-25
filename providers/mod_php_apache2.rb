@@ -47,9 +47,7 @@ action :before_deploy do
 
   new_resource = @new_resource
   apache_docroot = "#{new_resource.application.path}/current"
-  relative_docroot = new_resource.docroot
-  relative_docroot ||= new_resource.application.docroot
-  apache_docroot << "/#{relative_docroot}" if relative_docroot
+  apache_docroot << "/#{new_resource.docroot}" if new_resource.docroot
 
   web_app new_resource.application.name do
     docroot apache_docroot
