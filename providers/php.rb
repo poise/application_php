@@ -25,10 +25,7 @@ action :before_compile do
 
   new_resource.local_settings_file 'LocalSettings.php' unless new_resource.local_settings_file
 
-  new_resource.symlink_before_migrate.update({
-    new_resource.local_settings_file_name => new_resource.local_settings_file
-  })
-
+  new_resource.symlink_before_migrate[new_resource.local_settings_file_name] ||= new_resource.local_settings_file
 end
 
 action :before_deploy do
