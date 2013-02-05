@@ -104,7 +104,7 @@ def create_parameters_yml
   host = new_resource.find_database_server(new_resource.database_master_role)
 
   template "#{new_resource.path}/shared/parameters.yml" do
-    source new_resource.parameters_template || "parameters.yml.erb"
+    source new_resource.parameters_template || "symfony/parameters.yml.erb"
     cookbook new_resource.parameters_template ? new_resource.cookbook_name : "application_php"
     owner new_resource.owner
     group new_resource.group
