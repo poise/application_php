@@ -48,7 +48,7 @@ action :before_deploy do
   new_resource = @new_resource
 
   web_app new_resource.application.name do
-    docroot "#{new_resource.application.path}/current"
+    docroot "#{new_resource.application.path}/current#{new_resource.application.root}"
     template new_resource.webapp_template || 'php.conf.erb'
     cookbook new_resource.webapp_template ? new_resource.cookbook_name.to_s : "application_php"
     server_name "#{new_resource.application.name}.#{node['domain']}"
