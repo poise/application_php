@@ -27,36 +27,25 @@ def load_current_resource
 end
 
 action :before_compile do
-
   include_recipe 'php'
-
-  new_resource.local_settings_file 'LocalSettings.php' unless new_resource.local_settings_file
-
-  new_resource.symlink_before_migrate[new_resource.local_settings_file_name] ||= new_resource.local_settings_file
-end
-
-action :before_deploy do
-
-  install_packages
-
-  create_settings_file
-
+  if(new_resource.write_settings_file)
+    new_resource.local_settings_file 'LocalSettings.php' unless new_resource.local_settings_file
+    new_resource.symlink_before_migrate[new_resource.local_settings_file_name] ||= new_resource.local_settings_file
+  end
+  if(new_resource.replace_database_info_file)
+    replace_db_info!
+  end
 end
 
 protected
 
-def install_packages
-  new_resource.packages.each do |name,ver|
-    php_pear name do
-      action :install
-      version ver if ver && ver.length > 0
-    end
-  end
+def search_for_database
+  host = new_resource.find_database_server(new_resource.database_master_role)
+  new_resource.database[:host] = host if host
 end
 
-def create_settings_file
-  host = new_resource.find_database_server(new_resource.database_master_role)
-
+def create_configuration_files
+  search_for_database
   template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
     source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
     owner new_resource.owner
@@ -67,5 +56,20 @@ def create_settings_file
       :host => host,
       :database => new_resource.database
     )
+  end
+end
+
+def replace_db_info!
+  search_for_database
+  path = ::File.join(new_resource.release_path, new_resource.replace_database_info_file)
+  if(::File.exists?(path))
+    Chef::Log.warn "Editing file: #{path}"
+    file = Chef::Util::FileEdit.new(path)
+    new_resource.database.each do |key, value|
+      file.search_file_replace(%r{%%#{key}%%}, value)
+    end
+    file.write_file
+  else
+    raise "Failed to locate requested file to apply database configuration information (#{path})"
   end
 end
