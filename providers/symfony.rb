@@ -60,6 +60,7 @@ end
 
 def create_configuration_files
   host = new_resource.find_database_server(new_resource.database_master_role)
+  new_resource.parameters[:database_host] = host if host
 
   template "#{new_resource.path}/shared/parameters.yml" do
     source new_resource.parameters_template || "symfony/parameters.yml.erb"
