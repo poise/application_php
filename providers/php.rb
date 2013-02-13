@@ -17,7 +17,14 @@
 # limitations under the License.
 #
 
+include Chef::Provider::ApplicationPHP
 include Chef::Mixin::LanguageIncludeRecipe
+
+def load_current_resource
+  if(new_resource.pear_packages.empty? && !new_resource.packages.empty?)
+    new_resource.pear_packages new_resource.packages
+  end
+end
 
 action :before_compile do
 
@@ -34,18 +41,6 @@ action :before_deploy do
 
   create_settings_file
 
-end
-
-action :before_migrate do
-end
-
-action :before_symlink do
-end
-
-action :before_restart do
-end
-
-action :after_restart do
 end
 
 protected

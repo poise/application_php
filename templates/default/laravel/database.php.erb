@@ -1,0 +1,16 @@
+<?php
+
+return array(
+  'profile' => true,
+  'fetch' => PDO::FETCH_CLASS,
+  'default' => '<%= @database[:driver] %>',
+  'connections' => array(
+    '<%= @database[:driver] %>' => array(
+      <%=
+        @database.map{|k,v|
+          "'#{k}' => '#{v}'"
+        }.join(",\n")
+      %>
+    )
+  )
+);

@@ -1,0 +1,11 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+$active_group = 'default';
+$active_record = TRUE;
+
+<% @database.each do |key, value| %>
+$db['default']['<%= key %>'] = <%= value.inspect %>;
+<% end %>
+
+/* End of file database.php */
+/* Location: ./application/config/database.php */
