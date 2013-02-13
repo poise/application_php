@@ -34,6 +34,7 @@ protected
 
 def create_configuration_files
   host = new_resource.find_database_server(new_resource.database_master_role)
+  new_resource.database[:hostname] = host if host
 
   template "#{new_resource.path}/shared/database.php" do
     source new_resource.database_template || "codeignitor/database.php.erb"
