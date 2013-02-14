@@ -1,6 +1,6 @@
 class Chef
   class Resource
-    module ApplicationPHP
+    module ApplicationPhpBase
       class << self
         def included(klass)
           klass.send(:include, Chef::Resource::ApplicationBase)
@@ -14,7 +14,7 @@ class Chef
     end
   end
   class Provider
-    module ApplicationPHP
+    module ApplicationPhpBase
       class << self
         def included(klass)
           klass.action(:before_deploy) do

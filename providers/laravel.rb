@@ -1,4 +1,5 @@
-include Chef::Provider::ApplicationPHP
+include Chef::Provider::ApplicationPhpBase
+
 def load_current_resource
   default_database = Mash.new(
     :driver => 'mysql',

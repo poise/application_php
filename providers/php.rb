@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include Chef::Provider::ApplicationPHP
+include Chef::Provider::ApplicationPhpBase
 include Chef::Mixin::LanguageIncludeRecipe
 
 def load_current_resource
@@ -32,6 +32,9 @@ action :before_compile do
     new_resource.local_settings_file 'LocalSettings.php' unless new_resource.local_settings_file
     new_resource.symlink_before_migrate[new_resource.local_settings_file_name] ||= new_resource.local_settings_file
   end
+end
+
+action :before_migrate do
   if(new_resource.replace_database_info_file)
     replace_db_info!
   end
@@ -45,17 +48,18 @@ def search_for_database
 end
 
 def create_configuration_files
-  search_for_database
-  template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
-    source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
-    owner new_resource.owner
-    group new_resource.group
-    mode "644"
-    variables(
-      :path => "#{new_resource.path}/current",
-      :host => host,
-      :database => new_resource.database
-    )
+  if(new_resource.write_settings_file)
+    search_for_database
+    template "#{new_resource.path}/shared/#{new_resource.local_settings_file_name}" do
+      source new_resource.settings_template || "#{new_resource.local_settings_file_name}.erb"
+      owner new_resource.owner
+      group new_resource.group
+      mode "644"
+      variables(
+        :path => "#{new_resource.path}/current",
+        :database => new_resource.database
+      )
+    end
   end
 end
 

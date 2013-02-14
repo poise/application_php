@@ -1,4 +1,4 @@
-include Chef::Resource::ApplicationPHP
+include Chef::Resource::ApplicationPhpBase
 
 attribute :database_master_role, :kind_of => [String, NilClass], :default => nil
 attribute :parameters_template, :kind_of => String
