@@ -1,3 +1,5 @@
+include Chef::Provider::ApplicationPhpBase
+
 def load_current_resource
   default_database = Mash.new(
     'datasource' => 'Database/Mysql',
