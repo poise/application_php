@@ -18,10 +18,12 @@ def load_current_resource
 end
 
 action :before_compile do
-  directory File.join(new_resource.path, 'shared', 'tmp') do
-    action :create
-    owner new_resource.owner
-    group new_resource.group
+  %w(tmp/logs tmp/cache/models tmp/cache/persistent tmp/cache/queries).each do |dir|
+    directory ::File.join(new_resource.path, 'shared', dir) do
+      owner new_resource.owner
+      group new_resource.group
+      recursive true
+    end
   end
 end
 
