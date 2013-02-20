@@ -32,6 +32,7 @@ action :before_compile do
     directory ::File.join(new_resource.path, 'shared', dir) do
       owner new_resource.owner
       group new_resource.group
+      recursive true
     end
   end
 end
