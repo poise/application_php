@@ -13,20 +13,25 @@ def load_current_resource
     'stricton' => false
   )
   new_resource.database Chef::Mixin::DeepMerge.merge(default_database, new_resource.database)
-  new_resource.purge_before_symlink(
-    [::File.join(new_resource.release_path, new_resource.base_prefix, 'logs')]
-  )
   new_resource.symlinks.update(
-    'logs' => ::File.join('.', new_resource.base_prefix, 'logs')
+    'logs' => ::File.join('.', new_resource.base_prefix, 'logs'),
+    'cache' => ::File.join('.', new_resource.base_prefix, 'cache')
   )
   new_resource.symlink_before_migrate.update(
     'database.php' => ::File.join('.', new_resource.base_prefix, 'config/database.php')
   )
+  new_resource.purge_before_symlink(%W(
+    #{::File.join('.', new_resource.base_prefix, 'logs')}
+    #{::File.join('.', new_resource.base_prefix, 'cache')}
+  ))
 end
 
 action :before_compile do
-  directory File.join(new_resource.path, 'shared', 'logs') do
-    action :create
+  directory ::File.join(new_resource.path, 'shared', 'logs') do
+    owner new_resource.owner
+    group new_resource.group
+  end
+  directory ::File.join(new_resource.path, 'shared', 'cache') do
     owner new_resource.owner
     group new_resource.group
   end
