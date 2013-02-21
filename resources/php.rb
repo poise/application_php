@@ -24,6 +24,7 @@ attribute :local_settings_file, :kind_of => [String, NilClass], :default => 'Loc
 # Actually defaults to "#{local_settings_file_name}.erb", but nil means it wasn't set by the user
 attribute :settings_template, :kind_of => [String, NilClass], :default => nil
 attribute :packages, :kind_of => [Array, Hash], :default => []
+attribute :app_root, :kind_of => String, :default => "/"
 
 def local_settings_file_name
   @local_settings_file_name ||= local_settings_file.split(/[\\\/]/).last
