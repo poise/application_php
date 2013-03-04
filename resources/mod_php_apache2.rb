@@ -22,3 +22,4 @@ include Chef::Resource::ApplicationBase
 attribute :server_aliases, :kind_of => [Array, NilClass], :default => nil
 # Actually defaults to "php.conf.erb", but nil means it wasn't set by the user
 attribute :webapp_template, :kind_of => [String, NilClass], :default => nil
+attribute :webapp_overrides, :kind_of => Hash
