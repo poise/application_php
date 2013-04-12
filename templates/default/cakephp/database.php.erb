@@ -1,0 +1,8 @@
+<?php
+
+class DATABASE_CONFIG {
+
+  public $default = array(
+    <%= @database.map{|k,v| "'#{k}' => '#{v}'"}.join(",\n") %>
+  );
+}

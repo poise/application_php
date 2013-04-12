@@ -54,6 +54,11 @@ action :before_deploy do
     server_name "#{new_resource.application.name}.#{node['domain']}"
     server_aliases new_resource.server_aliases
     log_dir node['apache']['log_dir']
+    if(new_resource.webapp_overrides)
+      new_resource.webapp_overrides.each do |attribute, value|
+        self.send(attribute, value)
+      end
+    end
   end
 
   apache_site "000-default" do
