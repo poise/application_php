@@ -38,7 +38,7 @@ action :before_compile do
 end
 
 action :before_restart do
-  
+
   execute "php app/console cache:clear" do
     cwd new_resource.release_path
     user new_resource.owner
@@ -66,7 +66,7 @@ def create_configuration_files
 
   template "#{new_resource.path}/shared/parameters.yml" do
     source new_resource.parameters_template || "symfony/parameters.yml.erb"
-    cookbook new_resource.parameters_template ? new_resource.cookbook_name : "application_php"
+    cookbook new_resource.parameters_template ? new_resource.cookbook_name.to_s : "application_php"
     owner new_resource.owner
     group new_resource.group
     mode "644"

@@ -45,7 +45,7 @@ def create_configuration_files
 
   template "#{new_resource.path}/shared/database.php" do
     source new_resource.database_template || "codeignitor/database.php.erb"
-    cookbook new_resource.database_template ? new_resource.cookbook_name : "application_php"
+    cookbook new_resource.database_template ? new_resource.cookbook_name.to_s : "application_php"
     owner new_resource.owner
     group new_resource.group
     mode 0644
