@@ -44,7 +44,7 @@ def create_configuration_files
   new_resource.database[:hostname] = host if host
 
   template "#{new_resource.path}/shared/database.php" do
-    source new_resource.database_template || "codeignitor/database.php.erb"
+    source new_resource.database_template || "codeigniter/database.php.erb"
     cookbook new_resource.database_template ? new_resource.cookbook_name.to_s : "application_php"
     owner new_resource.owner
     group new_resource.group
