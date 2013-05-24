@@ -1,3 +1,10 @@
+## v1.1.2:
+
+### Bug
+
+- [COOK-2833]: Typo fix: codeigniter instead of codeignitor
+- [COOK-2914]: Foodcritic failures in Cookbooks
+
 ## v1.1.0:
 
 ### New Feature
