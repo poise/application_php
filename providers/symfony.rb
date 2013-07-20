@@ -1,4 +1,4 @@
-include Chef::Provider::ApplicationPhpBase
+include ApplicationPhpCookbook::ProviderBase
 
 def load_current_resource
   default_params = Mash.new(
