@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include Chef::Provider::ApplicationPhpBase
+include ApplicationPhpCookbook::ProviderBase
 include Chef::Mixin::LanguageIncludeRecipe
 
 def load_current_resource
