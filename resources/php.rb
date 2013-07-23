@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include Chef::Resource::ApplicationPhpBase
+include ApplicationPhpCookbook::ResourceBase
 
 attribute :write_settings_file, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :local_settings_file, :kind_of => [String, NilClass], :default => 'LocalSettings.php'
