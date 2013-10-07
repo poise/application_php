@@ -8,4 +8,5 @@ version          "2.0.1"
 
 depends "application", "~> 3.0"
 depends "apache2"
+depends "application"
 depends "php"
