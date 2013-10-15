@@ -18,7 +18,7 @@
 #
 
 include ApplicationPhpCookbook::ProviderBase
-include Chef::Mixin::LanguageIncludeRecipe
+include Chef::DSL::IncludeRecipe
 
 def load_current_resource
   if(new_resource.pear_packages.empty? && !new_resource.packages.empty?)
