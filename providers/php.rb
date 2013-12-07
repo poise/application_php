@@ -34,17 +34,17 @@ action :before_compile do
   end
 end
 
-action :before_migrate do
-  if(new_resource.replace_database_info_file)
-    replace_db_info!
-  end
-end
-
 protected
 
 def search_for_database
   host = new_resource.find_database_server(new_resource.database_master_role)
   new_resource.database[:host] = host if host
+end
+
+def run_before_migrate_setup
+  if(new_resource.replace_database_info_file)
+    replace_db_info!
+  end
 end
 
 def create_configuration_files
