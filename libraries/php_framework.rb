@@ -34,7 +34,7 @@ class ApplicationPhpCookbook
               to "#{new_resource.path}/shared/vendor"
             end
             execute "#{new_resource.composer_command} install -n -q #{new_resource.composer_options}" do
-              environment ({'GIT_SSH' => git_ssh_wrapper})
+              environment ({'GIT_SSH' => new_resource.git_ssh_wrapper})
               cwd new_resource.release_path
               user new_resource.owner
             end
