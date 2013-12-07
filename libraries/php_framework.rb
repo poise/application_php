@@ -35,6 +35,10 @@ class ApplicationPhpCookbook
             link release_vendor do
               to shared_vendor
             end
+            execute "#{new_resource.composer_command} install -n -q #{new_resource.composer_options}" do
+              cwd new_resource.release_path
+              user new_resource.owner
+            end
           else
             unless(new_resource.pear_packages.empty?)
               new_resource.pear_packages.each do |p_pkg, p_ver|
