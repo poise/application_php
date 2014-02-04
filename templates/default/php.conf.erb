@@ -1,16 +1,16 @@
-<VirtualHost *:8080>
+<VirtualHost *:<%= @params[:server_port] || node['apache']['listen_ports'].first %>>
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |a| %><%= "#{a}" %> <% end %>
   DocumentRoot <%= @params[:docroot] %>
   RewriteEngine On
-  
+
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride None
     Order allow,deny
     Allow from all
   </Directory>
-  
+
   <Directory />
     Options FollowSymLinks
     AllowOverride None
