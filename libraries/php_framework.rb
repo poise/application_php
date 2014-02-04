@@ -21,17 +21,19 @@ class ApplicationPhpCookbook
           run_before_migrate_setup
           if(new_resource.composer)
             Chef::Log.info 'Running composer install'
-            directory "#{new_resource.path}/shared/vendor" do
+            shared_vendor = ::File.join(new_resource.shared_path, 'vendor')
+            release_vendor = ::File.join(new_resource.release_path, 'vendor')
+            directory shared_vendor do
               owner new_resource.owner
               group new_resource.group
               mode 0755
             end
-            directory "#{new_resource.release_path}/vendor" do
+            directory release_vendor do
               action :delete
               recursive true
             end
-            link "#{new_resource.release_path}/vendor" do
-              to "#{new_resource.path}/shared/vendor"
+            link release_vendor do
+              to shared_vendor
             end
             execute "#{new_resource.composer_command} install -n -q #{new_resource.composer_options}" do
               cwd new_resource.release_path
